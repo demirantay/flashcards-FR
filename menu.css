@@ -1,0 +1,57 @@
+body {
+    font-family: 'Roboto', monospace;
+}
+
+.menu-wrapper {
+    width: 55%;
+    margin: 0 auto;
+    margin-top: 10vh;
+}
+
+h1 {}
+
+p a {
+    text-decoration: none;
+    color: #909497;
+}
+
+.desc2 {
+    color: #909497;
+    font-style: italic;
+}
+
+.game-box {
+    background-color: #eaeded;
+    display: inline-block;
+    vertical-align: top;
+    width: 40%;
+
+    margin-right: 25px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.game-box h3 {
+    margin: 0px;
+}
+
+.game-box p {
+    margin-bottom: 50px;
+}
+
+.game-box a {
+    display: block;
+    background-color: black;
+    color: white;
+    padding: 10px 0px;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.game-box a:hover {
+    transition: 0.2s;
+    color: black;
+    background-color: white;
+}
