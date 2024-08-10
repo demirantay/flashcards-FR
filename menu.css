@@ -12,7 +12,7 @@ h1 {}
 
 p a {
     text-decoration: none;
-    color: #909497;
+    color: #412E27;
 }
 
 .desc2 {
@@ -24,7 +24,7 @@ p a {
     background-color: #eaeded;
     display: inline-block;
     vertical-align: top;
-    width: 40%;
+    width: 38%;
 
     margin-right: 25px;
     padding: 15px 20px;
@@ -55,3 +55,61 @@ p a {
     color: black;
     background-color: white;
 }
+
+
+/* Mobile Small  --------------------------------------------------------- */
+@media screen and (min-width: 0px) and (max-width: 320px) {
+    .menu-wrapper {
+        width: 90%;
+    }
+
+    .game-box {
+        width: 90%;
+    }
+}
+
+/* Mobile Medium  --------------------------------------------------------- */
+@media screen and (min-width: 321px) and (max-width: 375px) {
+    .menu-wrapper {
+        width: 90%;
+    }
+
+    .game-box {
+        width: 90%;
+    }
+}
+
+/* Mobile Large - --------------------------------------------------------- */
+@media screen and (min-width: 376px) and (max-width: 425px) {
+    .menu-wrapper {
+        width: 90%;
+    }
+
+    .game-box {
+        width: 90%;
+    }
+}
+
+/* Tablet - --------------------------------------------------------------- */
+@media screen and (min-width: 426px) and (max-width: 768px) {
+    .menu-wrapper {
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 10vh;
+    }
+}
+
+/* Laptop ------------------------------------------------------------------ */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .menu-wrapper {
+        width: 60%;
+        margin: 0 auto;
+        margin-top: 10vh;
+    }
+}
+
+/* Laptop Large -------------------------------------------------------------*/
+@media screen and (min-width: 1025px) and (max-width: 1440px) {}
+
+/* 4K Large Desktop ------------------------------------------------------- */
+@media screen and (min-width: 1441px) {}
