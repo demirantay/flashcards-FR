@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Solar Game</title>
+    <!-- Meta Info -->
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="demir antay" />
+    <!-- FAVICON -->
+    <link rel="icon" href="../branding/logo-black.png" />
+    <!-- FONT AWSOME / Remixicon / Google Fonts -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+
+    <link rel="stylesheet" href="./game_2000.css">
+</head>
+
+<body>
+
+    <div id="vocab-learn-container">
+
+        <!-- top part -->
+        <div id="top-part">
+            <a href=""><span class="fa fa-close"></span></a>
+
+            <div id="progress-bar">
+                <div id="progress-status"></div>
+            </div>
+        </div>
+
+        <!-- learn content -->
+        <div id="middle-part">
+            <h3>Jamais</h3>
+            <div id="middle-part-answer-selections">
+            <div class="answer-cell" tabindex="-1">
+                <p><span id="answer-select-color">1</span> Never</p>
+            </div>
+            <div class="answer-cell" tabindex="-1">
+                <p><span id="answer-select-color">2</span> How</p>
+            </div>
+            <div class="answer-cell" tabindex="-1">
+                <p><span id="answer-select-color">3</span> Know</p>
+            </div>
+            <div class="answer-cell" tabindex="-1">
+                <p><span id="answer-select-color">4</span> Oteki</p>
+            </div>
+            </div>
+        </div>
+
+        <!-- bottom check part -->
+        <div id="bottom-part">
+            <button class="check-button" id="check-button"><span class="fa fa-check"></span> Check</button>
+            <button class="check-button" id="next-button"><span class="fa fa-arrow-right"></span> Next</button>            
+        </div>
+
+    </div>
+</body>
+<script src="./game_2000.js"></script>
+</html>
