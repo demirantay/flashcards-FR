@@ -88,7 +88,8 @@ function quit_game() {
 // event drriven instead of while loops, for performance and scalability
 
 let current_question_index = 0;
-let selectedAnswer = null;
+let selected_answer = null;
+
 
 // displayQuestion(): 
 // Manages the display of questions and answers.
@@ -105,22 +106,50 @@ function displayQuestion() {
     ANSWER_BOX_3.innerHTML = current_question.answers[2];
     ANSWER_BOX_4.innerHTML = current_question.answers[3];
     
-    selectedAnswer = null; // Reset selectedAnswer
+    selected_answer = null; // Reset selectedAnswer
 
     // !!!! YOU NEED TO ADD THE SOUNDS DONT FORGET AT EVERY DISPLAY 
 }
 
-// selectAnswer(): 
+// Check Answer and Select(): 
 // Updates the selected answer and highlights it in the UI.
-function selectAnswer() {
-
+function checkAnswer(event) {
+    if (event.key === '1') {
+        ANSWER_BOX_1.parentNode.parentNode.style.backgroundColor = "black";
+        ANSWER_BOX_1.parentNode.parentNode.style.color = "white";
+        selected_answer = quiz[current_question];
+    } else if (event.key === '2') {
+        alert("clicked 2");
+    } else if (event.key === '3') { 
+        alert("clicked 3");
+    } else if (event.key === '4') {
+        alert("clicked 4");
+    }
 }
+document.addEventListener('keydown', checkAnswer);
 
 // checkAnswerKey(): 
 // Listens for the ENTER key to submit the selected 
 // answer and move to the next question.
-function checkAnswerKey() {
-
+function checkAnswerKey(event) {
+    /*
+    if (event.key === 'Enter') {
+        if (selectedAnswer === null) {
+            alert("Please select an answer.");
+            return;
+        }
+        
+        const question = quiz[currentQuestionIndex];
+        if (selectedAnswer === question.correctAnswer) {
+            alert("Correct!");
+        } else {
+            alert("Incorrect!");
+        }
+        
+        currentQuestionIndex++;
+        displayQuestion();
+    }
+    */
 }
 
 // start the app when page loads fully
