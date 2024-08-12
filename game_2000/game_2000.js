@@ -8,6 +8,8 @@
 let PROGRESS_BAR = document.getElementById("progress-bar");
 let PROGRESS_STATUS = document.getElementById("progress-status");
 let GAME_LIVES = 5;
+let dom_game_lives = document.getElementById("game-lives-num");
+dom_game_lives.innerHTML = GAME_LIVES;
 
 // DOM Sounds
 let check_success_audio = new Audio("../audio-dom/check-success-sound.wav");
@@ -76,9 +78,9 @@ let isAnswerChecked = false;
 // displayQuestion(): 
 // Manages the display of questions and answers.
 function displayQuestion() {
-    if (current_question_index >= quiz.length) {
-        alert("Quiz complete! Congrats on learning 80% of the Language");
-        return;
+    if (CURRENT_SCORE >= 2000) {
+        alert("🏆You finished the game!🎉");
+        quit_game();
     }
 
     let current_question = quiz[current_question_index];
@@ -124,52 +126,93 @@ function selectAnswer(event) {
 }
 document.addEventListener('keydown', selectAnswer);
 
+
+// On click funcitons for select answer
+{
+    let current_question = quiz[current_question_index];
+
+    ANSWER_BOX_1.parentNode.parentNode.onclick = function (event) {
+        selected_answer = current_question.answers[0];
+        ANSWER_BOX_1.parentNode.parentNode.classList.add("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+    }
+    ANSWER_BOX_2.parentNode.parentNode.onclick = function (event) {
+        selected_answer = current_question.answers[1];
+        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.add("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+    }
+    ANSWER_BOX_3.parentNode.parentNode.onclick = function (event) {
+        selected_answer = current_question.answers[2];
+        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.add("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+    }
+    ANSWER_BOX_4.parentNode.parentNode.onclick = function (event) {
+        selected_answer = current_question.answers[3];
+        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.add("answer-cell-selected");
+    }
+}
+
+
+
 // checkAnswerKey(): 
 // answer and move to the next question.
 function checkAnswerKey(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        let current_question = quiz[current_question_index];
+        if (event.type === "click" || (event.type === "keydown" && event.key === "Enter")) {
+            event.preventDefault();
+            let current_question = quiz[current_question_index];
 
-        if (CURRENT_SCORE >= 2000) {
-            alert("🏆You finished the game!🎉");
-            quit_game();
-        }
-
-        if (!isAnswerChecked) {
-            // Check the answer
-            if (selected_answer == null) {
-                alert("Please select an answer.");
-                return;
-            } else if (selected_answer == current_question.correctAnswer) {
-                // correct logic
-                check_success_audio.play();
-                document.getElementById("bottom-part").style.backgroundColor = "green";
-                CURRENT_SCORE.innerHTML++;
-                // PROGRESS_STATUS.style.width = PROGRESS_STATUS.style.width + "10%";
-                // remove the known word from list
-            } else if (selected_answer != current_question.correctAnswer) {
-                // Wrong logic
-                document.getElementById("bottom-part").style.backgroundColor = "red";
-                // lives -1
-                // if lives == 0 -> 
-                // quit the game & if current score bigger than PR, update it.
+            if (!isAnswerChecked) {
+                // Check the answer
+                if (selected_answer == null) {
+                    alert("Please select an answer.");
+                    return;
+                } else if (selected_answer == current_question.correctAnswer) {
+                    // correct logic
+                    check_success_audio.play();
+                    document.getElementById("bottom-part").style.backgroundColor = "#82e0aa";
+                    CURRENT_SCORE.innerHTML++;
+                    // PROGRESS_STATUS.style.width = PROGRESS_STATUS.style.width + "10%";
+                    // remove the current question
+                } else if (selected_answer != current_question.correctAnswer) {
+                    // Wrong logic
+                    check_error_audio.play();
+                    document.getElementById("bottom-part").style.backgroundColor = "#ec7063";
+                    GAME_LIVES -= 1;
+                    dom_game_lives.innerHTML = GAME_LIVES;
+                    if (GAME_LIVES <= 0) {
+                        alert("😢 YOU LOST 📚")
+                        quit_game();
+                    }
+                    // add the current question at the end
+                }
+                CHECK_BOX.innerHTML = "Next";
+                isAnswerChecked = true;
+            } else {
+                // go to the next question
+                document.getElementById("bottom-part").style.backgroundColor = "white";
+                current_question_index++;
+                ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+                ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+                ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+                ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+                displayQuestion();
+                CHECK_BOX.innerHTML = "<span class='fa fa-check'></span> Check";
+                isAnswerChecked = false;
             }
-            isAnswerChecked = true;
-        } else {
-            // go to the next question
-            document.getElementById("bottom-part").style.backgroundColor = "white";
-            current_question_index++;
-            ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-            ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-            ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-            ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-            displayQuestion();
-            isAnswerChecked = false;
         }
     }
-}
-document.addEventListener('keydown', checkAnswerKey);
+CHECK_BOX.addEventListener("click", checkAnswerKey);
+CHECK_BOX.addEventListener('keydown', checkAnswerKey);
+
 
 // quit_game():
 // quit the game & if current score bigger than PR, update it.
