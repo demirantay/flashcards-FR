@@ -1,11 +1,13 @@
 /*
     Game 2000 words
+    Written by Demir Antay
+    @demirantay on github
 */
 
 /* -----------------------  Data Stuctures ------------------------------- */
 let PROGRESS_BAR = document.getElementById("progress-bar");
 let PROGRESS_STATUS = document.getElementById("progress-status");
-let GAME_LIVES = 3;
+let GAME_LIVES = 5;
 
 // DOM Sounds
 let check_success_audio = new Audio("../audio-dom/check-success-sound.wav");
@@ -45,13 +47,13 @@ let vocab_pack = [
     ["Avoir", "To have", "8.mp3"],
     ["Que", "That/Who/Whom", "9.mp3"],
     ["Ne", "Not", "10.mp3"],
- ];
+];
 
- // generate the QUIZ DS and it's questions
+// generate the QUIZ DS and it's questions
 fisherYatesShuffle(vocab_pack);
 let quiz = [];
 
-vocab_pack.forEach(function(item) {
+vocab_pack.forEach(function (item) {
     let rand_indx_1 = Math.floor(Math.random() * vocab_pack.length);
     let rand_indx_2 = Math.floor(Math.random() * vocab_pack.length);
     let rand_indx_3 = Math.floor(Math.random() * vocab_pack.length);
@@ -64,32 +66,12 @@ vocab_pack.forEach(function(item) {
     quiz.push(question);
 });
 
-/* ----------------------------  Algorithms ------------------------------- */
-function check_answer(answer) {
-    if (answer == "question_answer") {
-        // correct sound pop
-        // turn green dopamine colors
-        // correct answers +1
-        // progress bar update
-        // remove the known word from list
-        // continue to new word
-    } else if (answer != "question_answer") {
-        // lives -1
-        // if lives == 0 -> 
-        // quit the game & if current score bigger than PR, update it.
-    }
-}
-
-function quit_game() {
-    // quit the game & if current score bigger than PR, update it.
-}
-
-/* ---------------------------- MAIN GAME -------------------------------- */
+/* -------------------- MAIN GAME (ALGORITHMS) ---------------------------- */
 // event drriven instead of while loops, for performance and scalability
 
 let current_question_index = 0;
 let selected_answer = null;
-
+let isAnswerChecked = false;
 
 // displayQuestion(): 
 // Manages the display of questions and answers.
@@ -105,55 +87,98 @@ function displayQuestion() {
     ANSWER_BOX_2.innerHTML = current_question.answers[1];
     ANSWER_BOX_3.innerHTML = current_question.answers[2];
     ANSWER_BOX_4.innerHTML = current_question.answers[3];
-    
-    selected_answer = null; // Reset selectedAnswer
 
-    // !!!! YOU NEED TO ADD THE SOUNDS DONT FORGET AT EVERY DISPLAY 
+    selected_answer = null; // Reset selectedAnswer
 }
 
 // Check Answer and Select(): 
 // Updates the selected answer and highlights it in the UI.
-function checkAnswer(event) {
-    if (event.key === '1') {
-        ANSWER_BOX_1.parentNode.parentNode.style.backgroundColor = "black";
-        ANSWER_BOX_1.parentNode.parentNode.style.color = "white";
-        selected_answer = quiz[current_question];
-    } else if (event.key === '2') {
-        alert("clicked 2");
-    } else if (event.key === '3') { 
-        alert("clicked 3");
-    } else if (event.key === '4') {
-        alert("clicked 4");
+function selectAnswer(event) {
+    let current_question = quiz[current_question_index];
+
+    if (event.key == '1') {
+        selected_answer = current_question.answers[0];
+        ANSWER_BOX_1.parentNode.parentNode.classList.add("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+    } else if (event.key == '2') {
+        selected_answer = current_question.answers[1];
+        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.add("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+    } else if (event.key == '3') {
+        selected_answer = current_question.answers[2];
+        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.add("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+    } else if (event.key == '4') {
+        selected_answer = current_question.answers[3];
+        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.add("answer-cell-selected");
     }
 }
-document.addEventListener('keydown', checkAnswer);
+document.addEventListener('keydown', selectAnswer);
 
 // checkAnswerKey(): 
-// Listens for the ENTER key to submit the selected 
 // answer and move to the next question.
 function checkAnswerKey(event) {
-    /*
     if (event.key === 'Enter') {
-        if (selectedAnswer === null) {
-            alert("Please select an answer.");
-            return;
+        event.preventDefault();
+        let current_question = quiz[current_question_index];
+
+        if (CURRENT_SCORE >= 2000) {
+            alert("🏆You finished the game!🎉");
+            quit_game();
         }
-        
-        const question = quiz[currentQuestionIndex];
-        if (selectedAnswer === question.correctAnswer) {
-            alert("Correct!");
+
+        if (!isAnswerChecked) {
+            // Check the answer
+            if (selected_answer == null) {
+                alert("Please select an answer.");
+                return;
+            } else if (selected_answer == current_question.correctAnswer) {
+                // correct logic
+                check_success_audio.play();
+                document.getElementById("bottom-part").style.backgroundColor = "green";
+                CURRENT_SCORE.innerHTML++;
+                // PROGRESS_STATUS.style.width = PROGRESS_STATUS.style.width + "10%";
+                // remove the known word from list
+            } else if (selected_answer != current_question.correctAnswer) {
+                // Wrong logic
+                document.getElementById("bottom-part").style.backgroundColor = "red";
+                // lives -1
+                // if lives == 0 -> 
+                // quit the game & if current score bigger than PR, update it.
+            }
+            isAnswerChecked = true;
         } else {
-            alert("Incorrect!");
+            // go to the next question
+            document.getElementById("bottom-part").style.backgroundColor = "white";
+            current_question_index++;
+            ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+            ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+            ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+            ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+            displayQuestion();
+            isAnswerChecked = false;
         }
-        
-        currentQuestionIndex++;
-        displayQuestion();
     }
-    */
+}
+document.addEventListener('keydown', checkAnswerKey);
+
+// quit_game():
+// quit the game & if current score bigger than PR, update it.
+function quit_game() {
+
 }
 
 // start the app when page loads fully
-window.onload = function() {
+window.onload = function () {
     console.log('Page is fully loaded.');
     displayQuestion();
 };
