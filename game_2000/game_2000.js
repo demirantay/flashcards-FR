@@ -7,7 +7,7 @@
 /* -----------------------  Data Stuctures ------------------------------- */
 let PROGRESS_BAR = document.getElementById("progress-bar");
 let PROGRESS_STATUS = document.getElementById("progress-status");
-let GAME_LIVES = 5;
+let GAME_LIVES = 10;
 let dom_game_lives = document.getElementById("game-lives-num");
 dom_game_lives.innerHTML = GAME_LIVES;
 
@@ -71,9 +71,20 @@ vocab_pack.forEach(function (item) {
 /* -------------------- MAIN GAME (ALGORITHMS) ---------------------------- */
 // event drriven instead of while loops, for performance and scalability
 
-let current_question_index = 0;
 let selected_answer = null;
 let isAnswerChecked = false;
+
+// quit_game():
+function quit_game() {
+    alert("📈 Lost -> 📊 Current Score: " + CURRENT_SCORE.innerHTML);
+    window.location.href = "../index.html";
+}
+
+document.getElementById("close-btn").onclick = function(e) {
+    e.preventDefault();
+    quit_game();
+}
+
 
 // displayQuestion(): 
 // Manages the display of questions and answers.
@@ -81,9 +92,12 @@ function displayQuestion() {
     if (CURRENT_SCORE >= 2000) {
         alert("🏆You finished the game!🎉");
         quit_game();
+    } else if (quiz == [] || quiz.length == 0) {
+        quit_game();
     }
 
-    let current_question = quiz[current_question_index];
+
+    let current_question = quiz[0];
     QUESTION_BOX.innerHTML = current_question.question;
     ANSWER_BOX_1.innerHTML = current_question.answers[0];
     ANSWER_BOX_2.innerHTML = current_question.answers[1];
@@ -96,7 +110,7 @@ function displayQuestion() {
 // Check Answer and Select(): 
 // Updates the selected answer and highlights it in the UI.
 function selectAnswer(event) {
-    let current_question = quiz[current_question_index];
+    let current_question = quiz[0];
 
     if (event.key == '1') {
         selected_answer = current_question.answers[0];
@@ -129,7 +143,7 @@ document.addEventListener('keydown', selectAnswer);
 
 // On click funcitons for select answer
 {
-    let current_question = quiz[current_question_index];
+    let current_question = quiz[0];
 
     ANSWER_BOX_1.parentNode.parentNode.onclick = function (event) {
         selected_answer = current_question.answers[0];
@@ -162,68 +176,65 @@ document.addEventListener('keydown', selectAnswer);
 }
 
 
-
 // checkAnswerKey(): 
 // answer and move to the next question.
 function checkAnswerKey(event) {
-        if (event.type === "click" || (event.type === "keydown" && event.key === "Enter")) {
-            event.preventDefault();
-            let current_question = quiz[current_question_index];
+    if (event.type === "keydown" && event.key === "Enter") {
+        event.preventDefault();
 
-            if (!isAnswerChecked) {
-                // Check the answer
-                if (selected_answer == null) {
-                    alert("Please select an answer.");
-                    return;
-                } else if (selected_answer == current_question.correctAnswer) {
-                    // correct logic
-                    check_success_audio.play();
-                    document.getElementById("bottom-part").style.backgroundColor = "#82e0aa";
-                    CURRENT_SCORE.innerHTML++;
-                    // PROGRESS_STATUS.style.width = PROGRESS_STATUS.style.width + "10%";
-                    // remove the current question
-                } else if (selected_answer != current_question.correctAnswer) {
-                    // Wrong logic
-                    check_error_audio.play();
-                    document.getElementById("bottom-part").style.backgroundColor = "#ec7063";
-                    GAME_LIVES -= 1;
-                    dom_game_lives.innerHTML = GAME_LIVES;
-                    if (GAME_LIVES <= 0) {
-                        alert("😢 YOU LOST 📚")
-                        quit_game();
-                    }
-                    // add the current question at the end
-                }
-                CHECK_BOX.innerHTML = "Next";
-                isAnswerChecked = true;
-            } else {
-                // go to the next question
-                document.getElementById("bottom-part").style.backgroundColor = "white";
-                current_question_index++;
-                ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-                ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-                ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-                ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-                displayQuestion();
-                CHECK_BOX.innerHTML = "<span class='fa fa-check'></span> Check";
-                isAnswerChecked = false;
+        let current_question = quiz[0];
+
+        if (!isAnswerChecked) {
+            // Check if an answer is selected
+            if (selected_answer == null) {
+                alert("Please select an answer.");
+                return;
             }
+
+            // Check if the selected answer is correct / incorrect
+            if (selected_answer == current_question.correctAnswer) {
+                check_success_audio.play();
+                document.getElementById("bottom-part").style.backgroundColor = "#82e0aa";
+                CURRENT_SCORE.innerHTML++;
+                // remove element if correct
+                quiz.splice(0, 1);
+            } else {
+                check_error_audio.play();
+                document.getElementById("bottom-part").style.backgroundColor = "#ec7063";
+                GAME_LIVES -= 1;
+                dom_game_lives.innerHTML = GAME_LIVES;
+                // move to the end if incorrect
+                let moving = quiz.splice(0, 1)[0];
+                quiz.push(moving);
+
+                if (GAME_LIVES <= 0) {
+                    quit_game();
+                    return;
+                }
+            }
+            CHECK_BOX.innerHTML = "Next";
+            isAnswerChecked = true;
+        } else {
+            // Prepare for the next question
+            document.getElementById("bottom-part").style.backgroundColor = "white";
+            ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+            ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+            ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+            ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+            
+            // Clear the selected answer for the next question
+            selected_answer = null;
+            
+            displayQuestion();
+            CHECK_BOX.innerHTML = "<span class='fa fa-check'></span> Check";
+            isAnswerChecked = false;
         }
     }
-CHECK_BOX.addEventListener("click", checkAnswerKey);
-CHECK_BOX.addEventListener('keydown', checkAnswerKey);
-
-
-// quit_game():
-// quit the game & if current score bigger than PR, update it.
-function quit_game() {
-
 }
+document.addEventListener("keydown", checkAnswerKey);
 
 // start the app when page loads fully
 window.onload = function () {
     console.log('Page is fully loaded.');
     displayQuestion();
 };
-
-console.log(quiz)
