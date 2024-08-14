@@ -1,2 +1,3 @@
 # challenge
-challenging myself for 2 days
+
+[] onclick function is missing but everything apart works

@@ -10,6 +10,7 @@ let PROGRESS_STATUS = document.getElementById("progress-status");
 let GAME_LIVES = 10;
 let dom_game_lives = document.getElementById("game-lives-num");
 dom_game_lives.innerHTML = GAME_LIVES;
+PROGRESS_STATUS.style.width = "0%";
 
 // DOM Sounds
 let check_success_audio = new Audio("../audio-dom/check-success-sound.wav");
@@ -75,8 +76,13 @@ let selected_answer = null;
 let isAnswerChecked = false;
 
 // quit_game():
-function quit_game() {
-    alert("📈 Lost -> 📊 Current Score: " + CURRENT_SCORE.innerHTML);
+function quit_game(status) {
+    if (status == "won") {
+        alert("🎉🍾 YOU WIN THE GAME! -> 📊 Current Score: " + CURRENT_SCORE.innerHTML);
+    } else {
+        alert("📈 Lost -> 📊 Current Score: " + CURRENT_SCORE.innerHTML);
+    } 
+    
     window.location.href = "../index.html";
 }
 
@@ -89,13 +95,9 @@ document.getElementById("close-btn").onclick = function(e) {
 // displayQuestion(): 
 // Manages the display of questions and answers.
 function displayQuestion() {
-    if (CURRENT_SCORE >= 2000) {
-        alert("🏆You finished the game!🎉");
-        quit_game();
-    } else if (quiz == [] || quiz.length == 0) {
-        quit_game();
-    }
-
+    if (quiz == [] || quiz.length == 0) {
+        quit_game("won");
+    } 
 
     let current_question = quiz[0];
     QUESTION_BOX.innerHTML = current_question.question;
@@ -196,6 +198,9 @@ function checkAnswerKey(event) {
                 check_success_audio.play();
                 document.getElementById("bottom-part").style.backgroundColor = "#82e0aa";
                 CURRENT_SCORE.innerHTML++;
+                let currentWidth = parseFloat(PROGRESS_STATUS.style.width);
+                let newWidth = currentWidth + 0.05;
+                PROGRESS_STATUS.style.width = newWidth + "%";
                 // remove element if correct
                 quiz.splice(0, 1);
             } else {
@@ -228,10 +233,16 @@ function checkAnswerKey(event) {
             displayQuestion();
             CHECK_BOX.innerHTML = "<span class='fa fa-check'></span> Check";
             isAnswerChecked = false;
+
+            console.log();
+            // play current pronancuation
+            let audio = new Audio('../audio-words/'+quiz[0].audio);
+            audio.play();   
         }
     }
 }
 document.addEventListener("keydown", checkAnswerKey);
+
 
 // start the app when page loads fully
 window.onload = function () {
