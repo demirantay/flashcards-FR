@@ -39,18 +39,7 @@ function fisherYatesShuffle(arr) {
 }
 
 // Vocab Pack (for generating questions)
-let vocab_pack = [
-    ["Un|Une", " A/An/One", "1.mp3"],
-    ["à", "to", "2.mp3"],
-    ["En", "In/By", "3.mp3"],
-    ["Le|La", "The", "4.mp3"],
-    ["Et", "And", "5.mp3"],
-    ["Être", "To be", "6.mp3"],
-    ["De", "From", "7.mp3"],
-    ["Avoir", "To have", "8.mp3"],
-    ["Que", "That/Who/Whom", "9.mp3"],
-    ["Ne", "Not", "10.mp3"],
-];
+// we get it from game_words.js file in the same folder
 
 // generate the QUIZ DS and it's questions
 fisherYatesShuffle(vocab_pack);
@@ -64,7 +53,6 @@ vocab_pack.forEach(function (item) {
         question: item[0],
         answers: fisherYatesShuffle([item[1], vocab_pack[rand_indx_1][1], vocab_pack[rand_indx_2][1], vocab_pack[rand_indx_3][1]]),
         correctAnswer: item[1],
-        audio: item[2]
     };
     quiz.push(question);
 });
@@ -233,11 +221,6 @@ function checkAnswerKey(event) {
             displayQuestion();
             CHECK_BOX.innerHTML = "<span class='fa fa-check'></span> Check";
             isAnswerChecked = false;
-
-            console.log();
-            // play current pronancuation
-            let audio = new Audio('../audio-words/'+quiz[0].audio);
-            audio.play();   
         }
     }
 }
