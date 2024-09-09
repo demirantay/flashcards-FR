@@ -41,7 +41,7 @@ function fisherYatesShuffle(arr) {
 // Vocab Pack (for generating questions)
 // we get it from game_words.js file in the same folder
 
-// generate the QUIZ DS and it's questions
+// Generate the QUIZ DS and its questions
 fisherYatesShuffle(vocab_pack);
 let quiz = [];
 
@@ -58,7 +58,6 @@ vocab_pack.forEach(function (item) {
 });
 
 /* -------------------- MAIN GAME (ALGORITHMS) ---------------------------- */
-// event drriven instead of while loops, for performance and scalability
 
 let selected_answer = null;
 let isAnswerChecked = false;
@@ -70,7 +69,6 @@ function quit_game(status) {
     } else {
         alert("📈 Lost -> 📊 Current Score: " + CURRENT_SCORE.innerHTML);
     } 
-    
     window.location.href = "../index.html";
 }
 
@@ -79,13 +77,12 @@ document.getElementById("close-btn").onclick = function(e) {
     quit_game();
 }
 
-
 // displayQuestion(): 
 // Manages the display of questions and answers.
 function displayQuestion() {
     if (quiz == [] || quiz.length == 0) {
         quit_game("won");
-    } 
+    }
 
     let current_question = quiz[0];
     QUESTION_BOX.innerHTML = current_question.question;
@@ -99,136 +96,108 @@ function displayQuestion() {
 
 // Check Answer and Select(): 
 // Updates the selected answer and highlights it in the UI.
-function selectAnswer(event) {
+ANSWER_BOX_1.parentNode.parentNode.onclick = function () {
+    selectAnswer(0);
+};
+ANSWER_BOX_2.parentNode.parentNode.onclick = function () {
+    selectAnswer(1);
+};
+ANSWER_BOX_3.parentNode.parentNode.onclick = function () {
+    selectAnswer(2);
+};
+ANSWER_BOX_4.parentNode.parentNode.onclick = function () {
+    selectAnswer(3);
+};
+
+function selectAnswer(index) {
     let current_question = quiz[0];
 
-    if (event.key == '1') {
-        selected_answer = current_question.answers[0];
-        ANSWER_BOX_1.parentNode.parentNode.classList.add("answer-cell-selected");
-        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-    } else if (event.key == '2') {
-        selected_answer = current_question.answers[1];
-        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_2.parentNode.parentNode.classList.add("answer-cell-selected");
-        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-    } else if (event.key == '3') {
-        selected_answer = current_question.answers[2];
-        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_3.parentNode.parentNode.classList.add("answer-cell-selected");
-        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-    } else if (event.key == '4') {
-        selected_answer = current_question.answers[3];
-        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_4.parentNode.parentNode.classList.add("answer-cell-selected");
-    }
-}
-document.addEventListener('keydown', selectAnswer);
+    selected_answer = current_question.answers[index];
+    ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+    ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+    ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+    ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
 
-
-// On click funcitons for select answer
-{
-    let current_question = quiz[0];
-
-    ANSWER_BOX_1.parentNode.parentNode.onclick = function (event) {
-        selected_answer = current_question.answers[0];
-        ANSWER_BOX_1.parentNode.parentNode.classList.add("answer-cell-selected");
-        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-    }
-    ANSWER_BOX_2.parentNode.parentNode.onclick = function (event) {
-        selected_answer = current_question.answers[1];
-        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_2.parentNode.parentNode.classList.add("answer-cell-selected");
-        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-    }
-    ANSWER_BOX_3.parentNode.parentNode.onclick = function (event) {
-        selected_answer = current_question.answers[2];
-        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_3.parentNode.parentNode.classList.add("answer-cell-selected");
-        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-    }
-    ANSWER_BOX_4.parentNode.parentNode.onclick = function (event) {
-        selected_answer = current_question.answers[3];
-        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-        ANSWER_BOX_4.parentNode.parentNode.classList.add("answer-cell-selected");
-    }
+    document.getElementById(`answer_${index + 1}`).parentNode.parentNode.classList.add("answer-cell-selected");
 }
 
-
-// checkAnswerKey(): 
-// answer and move to the next question.
-function checkAnswerKey(event) {
-    if (event.type === "keydown" && event.key === "Enter") {
-        event.preventDefault();
-
+// checkAnswer():
+function checkAnswer() {
+    if (!isAnswerChecked) {
         let current_question = quiz[0];
 
-        if (!isAnswerChecked) {
-            // Check if an answer is selected
-            if (selected_answer == null) {
-                alert("Please select an answer.");
+        // Check if an answer is selected
+        if (selected_answer == null) {
+            alert("Please select an answer.");
+            return;
+        }
+
+        // Check if the selected answer is correct / incorrect
+        if (selected_answer == current_question.correctAnswer) {
+            check_success_audio.play();
+            document.getElementById("bottom-part").style.backgroundColor = "#82e0aa";
+            CURRENT_SCORE.innerHTML++;
+            let currentWidth = parseFloat(PROGRESS_STATUS.style.width);
+            let newWidth = currentWidth + 0.05;
+            PROGRESS_STATUS.style.width = newWidth + "%";
+            // Remove element if correct
+            quiz.splice(0, 1);
+        } else {
+            check_error_audio.play();
+            document.getElementById("bottom-part").style.backgroundColor = "#ec7063";
+            GAME_LIVES -= 1;
+            dom_game_lives.innerHTML = GAME_LIVES;
+            // Move to the end if incorrect
+            let moving = quiz.splice(0, 1)[0];
+            quiz.push(moving);
+
+            if (GAME_LIVES <= 0) {
+                quit_game();
                 return;
             }
-
-            // Check if the selected answer is correct / incorrect
-            if (selected_answer == current_question.correctAnswer) {
-                check_success_audio.play();
-                document.getElementById("bottom-part").style.backgroundColor = "#82e0aa";
-                CURRENT_SCORE.innerHTML++;
-                let currentWidth = parseFloat(PROGRESS_STATUS.style.width);
-                let newWidth = currentWidth + 0.05;
-                PROGRESS_STATUS.style.width = newWidth + "%";
-                // remove element if correct
-                quiz.splice(0, 1);
-            } else {
-                check_error_audio.play();
-                document.getElementById("bottom-part").style.backgroundColor = "#ec7063";
-                GAME_LIVES -= 1;
-                dom_game_lives.innerHTML = GAME_LIVES;
-                // move to the end if incorrect
-                let moving = quiz.splice(0, 1)[0];
-                quiz.push(moving);
-
-                if (GAME_LIVES <= 0) {
-                    quit_game();
-                    return;
-                }
-            }
-            CHECK_BOX.innerHTML = "Next";
-            isAnswerChecked = true;
-        } else {
-            // Prepare for the next question
-            document.getElementById("bottom-part").style.backgroundColor = "white";
-            ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
-            ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
-            ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
-            ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
-            
-            // Clear the selected answer for the next question
-            selected_answer = null;
-            
-            displayQuestion();
-            CHECK_BOX.innerHTML = "<span class='fa fa-check'></span> Check";
-            isAnswerChecked = false;
         }
+        CHECK_BOX.innerHTML = "Next";
+        isAnswerChecked = true;
+    } else {
+        // Prepare for the next question
+        document.getElementById("bottom-part").style.backgroundColor = "white";
+        ANSWER_BOX_1.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_2.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_3.parentNode.parentNode.classList.remove("answer-cell-selected");
+        ANSWER_BOX_4.parentNode.parentNode.classList.remove("answer-cell-selected");
+
+        // Clear the selected answer for the next question
+        selected_answer = null;
+
+        displayQuestion();
+        CHECK_BOX.innerHTML = "<span class='fa fa-check'></span> Check";
+        isAnswerChecked = false;
     }
 }
-document.addEventListener("keydown", checkAnswerKey);
 
+// Keydown event handling for "Enter" and "1", "2", "3", "4" keys
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        checkAnswer();
+    } else if (event.key === "1") {
+        selectAnswer(0);
+    } else if (event.key === "2") {
+        selectAnswer(1);
+    } else if (event.key === "3") {
+        selectAnswer(2);
+    } else if (event.key === "4") {
+        selectAnswer(3);
+    }
+});
 
-// start the app when page loads fully
+// CHECK button click handler
+CHECK_BOX.onclick = function () {
+    checkAnswer();
+};
+
+// Start the app when page loads fully
 window.onload = function () {
     console.log('Page is fully loaded.');
     displayQuestion();
 };
+
