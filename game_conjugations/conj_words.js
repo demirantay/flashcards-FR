@@ -1,0 +1,1 @@
+let vocab_pack = [['à', 'To'], ['En', 'In/By'], ['Le|La', 'The'], ['Et', 'And'], ['Être', 'To be'], ['De', 'From'], ['Avoir ', 'To have'], ['Que', 'That/Who/Whom'], ['Ne', 'Not'], ['Dans', 'In/Into']]
