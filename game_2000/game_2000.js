@@ -156,7 +156,7 @@ function checkAnswer() {
                 return;
             }
         }
-        CHECK_BOX.innerHTML = "Next";
+        CHECK_BOX.innerHTML = "<span class='fa fa-arrow-right'></span>  Next";
         isAnswerChecked = true;
     } else {
         // Prepare for the next question
