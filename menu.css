@@ -1,115 +1,105 @@
 body {
-    font-family: 'Roboto', monospace;
+    font-family: 'Roboto', sans-serif;
+    background-color: #FAFAFA; /* White background */
+    color: #130912; /* Black text */
+    margin: 0;
+    padding: 0;
 }
 
 .menu-wrapper {
-    width: 55%;
+    width: 60%;
     margin: 0 auto;
-    margin-top: 10vh;
+    padding-top: 8vh;
+    text-align: center;
 }
 
-h1 {}
+h1 {
+    color: #130912; /* Black */
+    font-weight: 500;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+p.desc, p.desc2 {
+    color: #130912;
+    font-size: 1.1em;
+    margin: 0;
+}
+
+p.desc2 {
+    font-style: italic;
+    margin-top: 10px;
+    font-size: 15px !important;
+}
 
 p a {
     text-decoration: none;
-    color: #412E27;
+    color: #E77917; /* Orange link */
+    border-bottom: 1px solid #E77917;
 }
 
-.desc2 {
-    color: #909497;
-    font-style: italic;
+.footer {
+    font-size: 14px !important;
+    position: absolute;
+    bottom:0;
+    width: 10%;
+    left: 45%;
 }
 
 .game-box {
-    background-color: #eaeded;
+    background-color: #FAFAFA; /* White background for boxes */
+    border: 1px solid #E77917; /* Orange border */
     display: inline-block;
-    vertical-align: top;
-    width: 35%;
-
-    margin-right: 25px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-top: 30px;
+    width: 40%;
+    padding: 20px;
+    margin: 20px 10px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .game-box h3 {
-    margin: 0px;
-}
-
-.game-box p {
-    margin-bottom: 50px;
+    margin: 0;
+    color: #130912; /* Black */
+    font-weight: 500;
+    font-size: 1.5em;
 }
 
 .game-box a {
     display: block;
-    background-color: black;
-    color: white;
-    padding: 10px 0px;
+    background-color: #E77917; /* Orange button */
+    color: #FAFAFA; /* White text */
+    padding: 12px 0;
+    margin-top: 20px;
     text-decoration: none;
-    border-radius: 6px;
-    text-align: center;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .game-box a:hover {
-    transition: 0.2s;
-    color: black;
-    background-color: white;
+    background-color: #FAFAFA; /* White on hover */
+    color: #E77917; /* Orange text */
+    border: 1px solid #E77917;
 }
 
-
-/* Mobile Small  --------------------------------------------------------- */
-@media screen and (min-width: 0px) and (max-width: 320px) {
+/* Responsive Design */
+@media screen and (max-width: 768px) {
     .menu-wrapper {
         width: 90%;
     }
 
     .game-box {
-        width: 90%;
-    }
-}
-
-/* Mobile Medium  --------------------------------------------------------- */
-@media screen and (min-width: 321px) and (max-width: 375px) {
-    .menu-wrapper {
-        width: 90%;
-    }
-
-    .game-box {
-        width: 90%;
-    }
-}
-
-/* Mobile Large - --------------------------------------------------------- */
-@media screen and (min-width: 376px) and (max-width: 425px) {
-    .menu-wrapper {
-        width: 90%;
-    }
-
-    .game-box {
-        width: 90%;
-    }
-}
-
-/* Tablet - --------------------------------------------------------------- */
-@media screen and (min-width: 426px) and (max-width: 768px) {
-    .menu-wrapper {
         width: 80%;
-        margin: 0 auto;
-        margin-top: 10vh;
+        margin-bottom: 30px;
     }
 }
 
-/* Laptop ------------------------------------------------------------------ */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    .menu-wrapper {
-        width: 60%;
-        margin: 0 auto;
-        margin-top: 10vh;
+@media screen and (max-width: 425px) {
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .game-box {
+        width: 100%;
     }
 }
-
-/* Laptop Large -------------------------------------------------------------*/
-@media screen and (min-width: 1025px) and (max-width: 1440px) {}
-
-/* 4K Large Desktop ------------------------------------------------------- */
-@media screen and (min-width: 1441px) {}

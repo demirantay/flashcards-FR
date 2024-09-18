@@ -294,7 +294,7 @@ body {
     margin-right: 13%;
     font-size: 23px;
     padding: 7px 15px;
-    background: #186A3B;
+    background: #E77917;
     color: white;
     border: 1px solid transparent;
     border-radius: 10px;
@@ -302,7 +302,7 @@ body {
   }
   
   .check-button:hover {
-    background-color: #27ae60;
+    background-color: #d35400;
     cursor: pointer;
     transition: 0.2s;
   }
