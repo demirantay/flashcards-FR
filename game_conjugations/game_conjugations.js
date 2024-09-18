@@ -53,6 +53,7 @@ vocab_pack.forEach(function (item) {
         question: item[0],
         answers: fisherYatesShuffle([item[1], vocab_pack[rand_indx_1][1], vocab_pack[rand_indx_2][1], vocab_pack[rand_indx_3][1]]),
         correctAnswer: item[1],
+        audio: item[2],
     };
     quiz.push(question);
 });
@@ -92,6 +93,10 @@ function displayQuestion() {
     ANSWER_BOX_4.innerHTML = current_question.answers[3];
 
     selected_answer = null; // Reset selectedAnswer
+
+    // Play the pronuncation
+    let audio = new Audio('../conj_audio/'+current_question.audio);
+    audio.play();
 }
 
 // Check Answer and Select(): 

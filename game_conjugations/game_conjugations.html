@@ -20,6 +20,17 @@
         rel="stylesheet">
 
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NV331W0081"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-NV331W0081');
+    </script>
+
+
     <link rel="stylesheet" href="../game_2000/game_2000.css">
 </head>
 
@@ -41,18 +52,18 @@
         <div id="middle-part">
             <h3 id="question_box"></h3>
             <div id="middle-part-answer-selections">
-            <div class="answer-cell" tabindex="-1">
-                <p><span class="answer-select-color">1</span> <span id="answer_1"></span></p>
-            </div>
-            <div class="answer-cell" tabindex="-1">
-                <p><span class="answer-select-color">2</span>  <span id="answer_2"></span></p>
-            </div>
-            <div class="answer-cell" tabindex="-1">
-                <p><span class="answer-select-color">3</span>  <span id="answer_3"></span></p>
-            </div>
-            <div class="answer-cell" tabindex="-1">
-                <p><span class="answer-select-color">4</span>  <span id="answer_4"></span></p>
-            </div>
+                <div class="answer-cell" tabindex="-1">
+                    <p><span class="answer-select-color">1</span> <span id="answer_1"></span></p>
+                </div>
+                <div class="answer-cell" tabindex="-1">
+                    <p><span class="answer-select-color">2</span> <span id="answer_2"></span></p>
+                </div>
+                <div class="answer-cell" tabindex="-1">
+                    <p><span class="answer-select-color">3</span> <span id="answer_3"></span></p>
+                </div>
+                <div class="answer-cell" tabindex="-1">
+                    <p><span class="answer-select-color">4</span> <span id="answer_4"></span></p>
+                </div>
             </div>
         </div>
 
@@ -60,11 +71,12 @@
         <div id="bottom-part">
             <p id="score">Current Score: <span id="current_score">0</span> / 1100</p>
             <button class="check-button" id="check-button"><span class="fa fa-check"></span> Check</button>
-            <button class="check-button" id="next-button"><span class="fa fa-arrow-right"></span> Next</button>            
+            <button class="check-button" id="next-button"><span class="fa fa-arrow-right"></span> Next</button>
         </div>
 
     </div>
 </body>
 <script src="./conj_words.js"></script>
 <script src="./game_conjugations.js"></script>
+
 </html>
